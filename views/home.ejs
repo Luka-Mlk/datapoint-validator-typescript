@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JumboChecker</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="http://localhost:3030/public/css/style.css"
+    />
+    <link rel="icon" href="./img/letter-j.png" />
+  </head>
+  <body>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+      }
+      header {
+        width: 100%;
+        padding: 1.5rem;
+        background-color: hsl(219, 63%, 53%);
+        color: #ffffff;
+      }
+      main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        gap: 1.5rem;
+        background-color: hsl(219, 63%, 53%);
+        border-radius: 10px;
+      }
+      .inputs {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      form input,
+      textarea {
+        resize: none;
+        inset: none;
+        outline: none;
+        border-radius: 5px;
+        border: 0;
+        padding: 0.25rem;
+        min-width: 5rem;
+        width: 10vw;
+        height: 7rem;
+      }
+      #fileDirectory {
+        height: 1.5rem;
+        min-width: 15rem;
+        width: 35vw;
+      }
+      button {
+        padding: 10px 30px;
+        border-radius: 10px;
+        border: none;
+        background-color: hsl(167, 63%, 53%);
+        outline: none;
+        font-size: 1.25rem;
+        font-weight: 200;
+        inset: none;
+      }
+      section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        background-color: hsl(219, 63%, 53%);
+        font-size: 1.5rem;
+        gap: 2rem;
+        margin: 2rem;
+        padding: 2rem;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 0.75rem;
+        background-color: hsl(0, 0%, 95%);
+        padding: 1rem;
+        width: 95%;
+        border-radius: 5px;
+      }
+      .items {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.25rem;
+        border-bottom: 2px solid hsla(0, 0%, 39%, 0.795);
+        width: 100%;
+        padding: 0.25rem 0;
+      }
+      .items h5 {
+        border: 2px solid hsla(0, 0%, 39%, 0.795);
+        padding: 0.25rem 0.5rem;
+      }
+      @media screen and (max-width: 1870px) {
+        section {
+          flex-direction: column;
+        }
+      }
+    </style>
+    <header>
+      <h1>JumboChecker</h1>
+    </header>
+    <main>
+      <form action="/submitted-data" method="post">
+        <!-- <input type="text" placeholder="Enter file directory" /> -->
+        <textarea
+          name="directory"
+          id="fileDirectory"
+          placeholder="Enter file directory"
+        ></textarea>
+        <div class="inputs">
+          <textarea name="item_number" id="" placeholder="Бр."></textarea>
+          <textarea name="item_id" id="" placeholder="АртикалID"></textarea>
+          <textarea name="vero_id" id="" placeholder="ВероID"></textarea>
+          <textarea name="item_code" id="" placeholder="Код на доб."></textarea>
+          <textarea name="item_name" id="" placeholder="Назив"></textarea>
+          <textarea name="item_amount" id="" placeholder="Количина"></textarea>
+          <textarea name="item_origin" id="" placeholder="Потекло"></textarea>
+        </div>
+        <button type="submit">Start</button>
+      </form>
+    </main>
+    <% if( locals.available || locals.unavailable ) { let orderSize = 0; %>
+    <section>
+      <div class="container">
+        <h3>Available items</h3>
+        <h4>Number / ArticleId / VeroId / AritcleName / Amount / Origin</h4>
+        <% available.forEach((item) => { %>
+        <div class="items">
+          <h5><%= item.item_number %></h5>
+          <h5><%= item.item_id %></h5>
+          <h5><%= item.vero_id %></h5>
+          <h5><%= item.item_code %></h5>
+          <h5><%= item.item_name %></h5>
+          <h5><%= Number(item.item_amount) + 2 %></h5>
+          <h5><%= item.item_origin %></h5>
+          <% orderSize += Number(item.item_amount) + 2 %>
+        </div>
+        <% }) %>
+        <h3>Order amount: <%= orderSize %></h3>
+      </div>
+      <div class="container">
+        <h3>Unavailable items</h3>
+        <h4>Number / ArticleId / VeroId / AritcleName / Amount / Origin</h4>
+        <% unavailable.forEach((item) => { %>
+        <div class="items">
+          <h5><%= item.item_number %></h5>
+          <h5><%= item.item_id %></h5>
+          <h5><%= item.vero_id %></h5>
+          <h5><%= item.item_code %></h5>
+          <h5><%= item.item_name %></h5>
+          <h5><%= item.item_amount %></h5>
+          <h5><%= item.item_origin %></h5>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+    <%}%>
+  </body>
+</html>
