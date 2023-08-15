@@ -1,1 +1,1 @@
-##DataPointBMG inventory managment tool refactored in TypeScript
+## DataPointBMG inventory managment tool refactored in TypeScript
